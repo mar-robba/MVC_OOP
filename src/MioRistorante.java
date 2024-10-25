@@ -57,14 +57,16 @@ public class MioRistorante {
 
             System.out.println("Inserisci il giorno della registrazione: ");
             int registrazioneGCliente = tastiera.nextInt();
-            if (registrazioneGCliente < 32 || registrazioneGCliente > 0) {
+            if (registrazioneGCliente < 32 && registrazioneGCliente > 0) {
                 registrazioneG[numRecord] = registrazioneGCliente;
             }
 
 
             System.out.println("Inserisci il mese della registrazione: ");
             int registrazioneMCliente = tastiera.nextInt();
-            registrazioneM[numRecord] = registrazioneMCliente;
+            if (registrazioneMCliente > 0 && registrazioneMCliente < 13) {
+                registrazioneM[numRecord] = registrazioneMCliente;
+            }
 
             System.out.println("Inserisci l'anno della registrazione: ");
             int registrazioneACliente = tastiera.nextInt();
