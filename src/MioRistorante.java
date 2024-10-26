@@ -1,4 +1,5 @@
- import java.util.Scanner;
+import java.util.Arrays;
+import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -23,9 +24,9 @@ public class MioRistorante {
 
     public static void menu() {
         System.out.println("Cosa vuoi fare? ");
-        System.out.println("Scelta 1: Inserisci un utente");
         System.out.println("Scelta 1: Inserisci un cliente");
         System.out.println("Scelta 2: Cerca un cliente");
+        System.out.println("Scelta 3: Stampa i dati di tutti i clienti");
         System.out.println("Scelta 100: Esci da un'applicazione");
     }
 
@@ -34,9 +35,14 @@ public class MioRistorante {
         switch (scelta) {
             case 1:
                 System.out.println("Inserisci un cliente");
+                inserisci();
                 break;
             case 2:
                 System.out.println("Cerca un cliente");
+                break;
+            case 3:
+                System.out.println("Stampa i dati di tutti i clienti");
+                stampa_clienti();
                 break;
             case 100:
                 System.out.println("Esci dall'applicazione");
@@ -49,26 +55,13 @@ public class MioRistorante {
 
     //estensione array
     public static void estendi(){
-        String [] arrayestesoString = new String[id.length+1];
-        int [] arrayestesoInt = new int[id.length+1];
+        int newLenght = numRecord * 2;
 
-        System.arraycopy(id,0,arrayestesoString,0,id.length );
-        id = arrayestesoString;
-
-        System.arraycopy(nascita,0,arrayestesoInt,0,nascita.length);
-        nascita = arrayestesoInt;
-
-
-        System.arraycopy(registrazioneG,0,arrayestesoInt,0,registrazioneG.length);
-        registrazioneG = arrayestesoInt;
-
-
-        System.arraycopy(registrazioneM,0,arrayestesoInt,0,registrazioneM.length);
-        registrazioneM = arrayestesoInt;
-
-
-        System.arraycopy(registrazioneA,0,arrayestesoInt,0,registrazioneA.length);
-        registrazioneA = arrayestesoInt;
+        id = Arrays.copyOf(id, newLenght);
+        nascita = Arrays.copyOf(nascita, newLenght);
+        registrazioneG = Arrays.copyOf(registrazioneG, newLenght);
+        registrazioneM = Arrays.copyOf(registrazioneM, newLenght);
+        registrazioneA = Arrays.copyOf(registrazioneA, newLenght);
     }
 
     public static void inserisci() {
@@ -103,5 +96,11 @@ public class MioRistorante {
         registrazioneA[numRecord] = registrazioneACliente;
 
         numRecord++;
+    }
+
+    public static void stampa_clienti() {
+        for (int i = 0; i < numRecord; i++) {
+            System.out.println(id[i] + " " + nascita[i] + " " + registrazioneG[i] + "/" + registrazioneM[i] + "/" + registrazioneA[i]);
+        }
     }
 }
