@@ -1,4 +1,4 @@
-import java.util.Scanner;
+ import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -47,7 +47,35 @@ public class MioRistorante {
         }
     }
 
+    //estensione array
+    public static void estendi(){
+        String [] arrayestesoString = new String[id.length+1];
+        int [] arrayestesoInt = new int[id.length+1];
+
+        System.arraycopy(id,0,arrayestesoString,0,id.length );
+        id = arrayestesoString;
+
+        System.arraycopy(nascita,0,arrayestesoInt,0,nascita.length);
+        nascita = arrayestesoInt;
+
+
+        System.arraycopy(registrazioneG,0,arrayestesoInt,0,registrazioneG.length);
+        registrazioneG = arrayestesoInt;
+
+
+        System.arraycopy(registrazioneM,0,arrayestesoInt,0,registrazioneM.length);
+        registrazioneM = arrayestesoInt;
+
+
+        System.arraycopy(registrazioneA,0,arrayestesoInt,0,registrazioneA.length);
+        registrazioneA = arrayestesoInt;
+    }
+
     public static void inserisci() {
+
+        //controllo se il vettore è pieno e nel caso lo si estende
+        if (numRecord >= id.length) estendi();
+
         Scanner tastiera = new Scanner(System.in);
         System.out.println("Inserisci l'id: ");
         String idCliente = tastiera.nextLine();
@@ -73,5 +101,7 @@ public class MioRistorante {
         System.out.println("Inserisci l'anno della registrazione: ");
         int registrazioneACliente = tastiera.nextInt();
         registrazioneA[numRecord] = registrazioneACliente;
+
+        numRecord++;
     }
 }
