@@ -22,7 +22,8 @@ public class MioRistorante {
     }
 
     public static void menu() {
-        System.out.println("Cosa vuoi fare? ");System.out.println("Scelta 1: Inserisci un utente");
+        System.out.println("Cosa vuoi fare? ");
+        System.out.println("Scelta 1: Inserisci un utente");
         System.out.println("Scelta 1: Inserisci un cliente");
         System.out.println("Scelta 2: Cerca un cliente");
         System.out.println("Scelta 100: Esci da un'applicazione");
@@ -44,34 +45,33 @@ public class MioRistorante {
                 System.out.println("Scelto altro");
                 break;
         }
+    }
 
-        public static void inserisci() {
-            Scanner tastiera = new Scanner(System.in);
-            System.out.println("Inserisci l'id: ");
-            String idCliente = tastiera.nextLine();
-            id[numRecord] = idCliente;
+    public static void inserisci() {
+        Scanner tastiera = new Scanner(System.in);
+        System.out.println("Inserisci l'id: ");
+        String idCliente = tastiera.nextLine();
+        id[numRecord] = idCliente;
 
-            System.out.println("Inserisci l'anno di nascita: ");
-            int nascitaCliente = tastiera.nextInt();
-            nascita[numRecord] = nascitaCliente;
+        System.out.println("Inserisci l'anno di nascita: ");
+        int nascitaCliente = tastiera.nextInt();
+        nascita[numRecord] = nascitaCliente;
 
-            System.out.println("Inserisci il giorno della registrazione: ");
-            int registrazioneGCliente = tastiera.nextInt();
-            if (registrazioneGCliente < 32 && registrazioneGCliente > 0) {
-                registrazioneG[numRecord] = registrazioneGCliente;
-            }
-
-
-            System.out.println("Inserisci il mese della registrazione: ");
-            int registrazioneMCliente = tastiera.nextInt();
-            if (registrazioneMCliente > 0 && registrazioneMCliente < 13) {
-                registrazioneM[numRecord] = registrazioneMCliente;
-            }
-
-            System.out.println("Inserisci l'anno della registrazione: ");
-            int registrazioneACliente = tastiera.nextInt();
-            registrazioneA[numRecord] = registrazioneACliente;
+        System.out.println("Inserisci il giorno della registrazione: ");
+        int registrazioneGCliente = tastiera.nextInt();
+        if (registrazioneGCliente < 32 && registrazioneGCliente > 0) {
+            registrazioneG[numRecord] = registrazioneGCliente;
         }
+
+
+        System.out.println("Inserisci il mese della registrazione: ");
+        int registrazioneMCliente = tastiera.nextInt();
+        if (registrazioneMCliente > 0 && registrazioneMCliente < 13) {
+            registrazioneM[numRecord] = registrazioneMCliente;
+        }
+
+        System.out.println("Inserisci l'anno della registrazione: ");
+        int registrazioneACliente = tastiera.nextInt();
+        registrazioneA[numRecord] = registrazioneACliente;
     }
 }
-
