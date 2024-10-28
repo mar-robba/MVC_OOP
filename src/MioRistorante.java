@@ -41,6 +41,7 @@ public class MioRistorante {
                 break;
             case 2:
                 System.out.println("Cerca un cliente");
+                cerca();
                 break;
             case 3:
                 System.out.println("Stampa i dati di tutti i clienti");
@@ -56,7 +57,7 @@ public class MioRistorante {
     }
 
     //estensione array
-    public static void estendi(){
+    public static void estendi() {
         int newLenght = numRecord * 2;
 
         id = Arrays.copyOf(id, newLenght);
@@ -134,9 +135,35 @@ public class MioRistorante {
         return false;
     }
 
+    public static void cerca() {
+        int cliente = -1;
+
+        tastiera.skip("\n"); // svuotiamo il buffer di input
+
+        System.out.println("Id cliente da cercare: ");
+        String id_ricerca = tastiera.nextLine();
+
+        for (int i = 0; i < numRecord; i++) {
+            if (id[i].equals(id_ricerca)) {
+                cliente = i;
+                break;
+            }
+        }
+
+        if (cliente == -1) {
+            System.out.println("Nessun cliente con l'id selezionato");
+        } else {
+            System.out.println(
+                "Id: " + id[cliente] +
+                ", anno di nascita: " + nascita[cliente] +
+                ", data di registrazione: " + registrazioneG[cliente] + "/" + registrazioneM[cliente] + "/" + registrazioneA[cliente]
+            );
+        }
+    }
+
     public static void stampa_clienti() {
         for (int i = 0; i < numRecord; i++) {
-            System.out.println("Utente " + (i+1) + ": " + id[i] + " " + nascita[i] + " " + registrazioneG[i] + "/" + registrazioneM[i] + "/" + registrazioneA[i]);
+            System.out.println("Utente " + (i + 1) + ": " + id[i] + " " + nascita[i] + " " + registrazioneG[i] + "/" + registrazioneM[i] + "/" + registrazioneA[i]);
         }
     }
 }
