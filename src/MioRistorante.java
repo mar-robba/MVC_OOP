@@ -11,8 +11,9 @@ public class MioRistorante {
     static int[] registrazioneA = new int[3];
     static int numRecord = 0;
 
+    static Scanner tastiera = new Scanner(System.in);
+
     public static void main(String[] args) {
-        Scanner tastiera = new Scanner(System.in);
         System.out.println("Benvenuto nel software Ristorazione dell’UPO!");
         int scelta = -1;
         while (scelta < 100) {
@@ -65,11 +66,13 @@ public class MioRistorante {
     }
 
     public static void inserisci() {
+        int registrazioneGCliente;
+        int registrazioneMCliente;
+        int registrazioneACliente;
 
         //controllo se il vettore è pieno e nel caso lo si estende
         if (numRecord >= id.length) estendi();
 
-        Scanner tastiera = new Scanner(System.in);
         System.out.println("Inserisci l'id: ");
         String idCliente = tastiera.nextLine();
         id[numRecord] = idCliente;
@@ -78,21 +81,22 @@ public class MioRistorante {
         int nascitaCliente = tastiera.nextInt();
         nascita[numRecord] = nascitaCliente;
 
-        System.out.println("Inserisci il giorno della registrazione: ");
-        int registrazioneGCliente = tastiera.nextInt();
-        if (registrazioneGCliente < 32 && registrazioneGCliente > 0) {
-            registrazioneG[numRecord] = registrazioneGCliente;
-        }
+        do {
+            System.out.println("Inserisci il giorno della registrazione: ");
+            registrazioneGCliente = tastiera.nextInt();
+        } while (registrazioneGCliente <= 0 || registrazioneGCliente > 31);
+        registrazioneG[numRecord] = registrazioneGCliente;
 
+        do {
+            System.out.println("Inserisci il mese della registrazione: ");
+            registrazioneMCliente = tastiera.nextInt();
+        } while (registrazioneMCliente <= 0 || registrazioneMCliente > 31);
+        registrazioneM[numRecord] = registrazioneMCliente;
 
-        System.out.println("Inserisci il mese della registrazione: ");
-        int registrazioneMCliente = tastiera.nextInt();
-        if (registrazioneMCliente > 0 && registrazioneMCliente < 13) {
-            registrazioneM[numRecord] = registrazioneMCliente;
-        }
-
-        System.out.println("Inserisci l'anno della registrazione: ");
-        int registrazioneACliente = tastiera.nextInt();
+        do {
+            System.out.println("Inserisci l'anno della registrazione: ");
+            registrazioneACliente = tastiera.nextInt();
+        } while (registrazioneACliente <= 0 || registrazioneACliente > 31);
         registrazioneA[numRecord] = registrazioneACliente;
 
         numRecord++;
