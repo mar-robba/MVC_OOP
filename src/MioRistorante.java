@@ -58,7 +58,10 @@ public class MioRistorante {
 
     //estensione array
     public static void estendi() {
-        int newLenght = numRecord * 2;
+        /***Marco per Rie, cancellalo quando hai letto il test su questa funzione richiede che tale abbia validità generale;
+         * per esempio: se numRecord fosse uguale a 0 la  funzione non riuscirebbe ad estendere gli array
+         */
+        int newLenght = id.length * 2;
 
         id = Arrays.copyOf(id, newLenght);
         nascita = Arrays.copyOf(nascita, newLenght);
@@ -67,59 +70,87 @@ public class MioRistorante {
         registrazioneA = Arrays.copyOf(registrazioneA, newLenght);
     }
 
+    public static boolean inserisciCliente(String idCliente, int nascitaCliente, int registrazioneGCliente ,int registrazioneMCliente, int registrazioneACliente){
+
+        boolean RiuscitaInserimento = true;
+
+                        //**condizioni sulla validità dell'input**//
+        /***Marco: aggiungere la condizione sul range 1000 9999*/
+        //sull'id
+        if (id_esistente(idCliente) || idCliente.isEmpty())              RiuscitaInserimento = false;
+
+        //sulla nascita
+        if (nascitaCliente < 1900)                                       RiuscitaInserimento = false;
+
+        //sul giorno della registrazione
+        if (registrazioneGCliente <= 0 || registrazioneGCliente > 31)    RiuscitaInserimento = false;
+
+        //sul mese della registrazione
+        if(registrazioneMCliente <= 0 || registrazioneMCliente > 12)     RiuscitaInserimento = false;
+
+        //sull'anno della registrazione
+        if(registrazioneACliente < 1900)                                 RiuscitaInserimento = false;
+
+        /***Marco: dove ho spostato la parte di gestione dei clienti come da consegna*/
+        if (RiuscitaInserimento){
+            //controllo se il vettore è pieno e nel caso lo si estende
+            if (numRecord >= id.length) estendi();
+
+            id[numRecord] = idCliente;
+            nascita[numRecord] = nascitaCliente;
+            registrazioneG[numRecord] = registrazioneGCliente;
+            registrazioneM[numRecord] = registrazioneMCliente;
+            registrazioneA[numRecord] = registrazioneACliente;
+
+            numRecord++;
+            System.out.println("\n Il cliente è stato registrato\n");
+            return true;
+        }else {
+            System.out.println("\nIl cliente non è stato registrato\n");
+            return false;
+        }
+    }
+
     public static void inserisci() {
         String idCliente;
+        int nascitaCliente;
         int registrazioneGCliente;
         int registrazioneMCliente;
         int registrazioneACliente;
 
         tastiera.skip("\n"); // svuotiamo il buffer di lettura prima di leggere
 
-        //controllo se il vettore è pieno e nel caso lo si estende
-        if (numRecord >= id.length) estendi();
 
-        do {
-            System.out.println("Inserisci l'id: ");
-            idCliente = tastiera.nextLine();
-            if (idCliente.isEmpty()) {
-                idCliente = genera_id();
-                break;
-            }
-        } while (id_esistente(idCliente));
-        id[numRecord] = idCliente;
+        System.out.println("Inserisci l'id: ");
+        idCliente = tastiera.nextLine();
+        if (idCliente.isEmpty()) idCliente = genera_id();
 
         System.out.println("Inserisci l'anno di nascita: ");
-        int nascitaCliente = tastiera.nextInt();
-        nascita[numRecord] = nascitaCliente;
+        nascitaCliente = tastiera.nextInt();
 
-        do {
-            System.out.println("Inserisci il giorno della registrazione: ");
-            registrazioneGCliente = tastiera.nextInt();
-        } while (registrazioneGCliente <= 0 || registrazioneGCliente > 31);
-        registrazioneG[numRecord] = registrazioneGCliente;
+        System.out.println("Inserisci il giorno della registrazione: ");
+        registrazioneGCliente = tastiera.nextInt();
 
-        do {
-            System.out.println("Inserisci il mese della registrazione: ");
-            registrazioneMCliente = tastiera.nextInt();
-        } while (registrazioneMCliente <= 0 || registrazioneMCliente > 12);
-        registrazioneM[numRecord] = registrazioneMCliente;
+        System.out.println("Inserisci il mese della registrazione: ");
+        registrazioneMCliente = tastiera.nextInt();
 
-        do {
-            System.out.println("Inserisci l'anno della registrazione: ");
-            registrazioneACliente = tastiera.nextInt();
-        } while (registrazioneACliente < 1900 || registrazioneACliente > 2024);
-        registrazioneA[numRecord] = registrazioneACliente;
+        System.out.println("Inserisci l'anno della registrazione: ");
+        registrazioneACliente = tastiera.nextInt();
 
-        numRecord++;
+        inserisciCliente(idCliente,nascitaCliente,registrazioneGCliente,registrazioneMCliente,registrazioneACliente);
     }
+
 
     public static String genera_id() {
         Random rand = new Random();
         int n;
         String random_id;
 
+        /**Marco: se trovate un metodo meno primordiale per generare il valore nel range sarebbe meglio, si dovrebbe cercare
+         * nella documentazione di Random
+         */
         do {
-            n = rand.nextInt(10000);
+            n = rand.nextInt() % (9999 - 999) + 1000;
             random_id = "user_" + String.format("%04d", n);
         } while (id_esistente(random_id));
 
@@ -128,7 +159,7 @@ public class MioRistorante {
 
     public static boolean id_esistente(String new_id) {
         for (int i = 0; i < numRecord; i++) {
-            if (id[i].equals(new_id)) {
+            if (id[i] != null && id[i].equals(new_id)) {
                 return true;
             }
         }
