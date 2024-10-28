@@ -136,7 +136,7 @@ public class MioRistorante {
 
     public static void stampa_clienti() {
         for (int i = 0; i < numRecord; i++) {
-            System.out.println("Utente " + i+1 + ": " + id[i] + " " + nascita[i] + " " + registrazioneG[i] + "/" + registrazioneM[i] + "/" + registrazioneA[i]);
+            System.out.println("Utente " + (i+1) + ": " + id[i] + " " + nascita[i] + " " + registrazioneG[i] + "/" + registrazioneM[i] + "/" + registrazioneA[i]);
         }
     }
 }
