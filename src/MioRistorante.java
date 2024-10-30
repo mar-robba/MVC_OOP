@@ -51,63 +51,8 @@ public class MioRistorante {
                 System.out.println("Esci dall'applicazione");
                 break;
             default:
-                System.out.println("Scelto altro");
+                System.out.println("Selezionato codice non valido");
                 break;
-        }
-    }
-
-    //estensione array
-    public static void estendi() {
-        /***Marco per Rie, cancellalo quando hai letto il test su questa funzione richiede che tale abbia validità generale;
-         * per esempio: se numRecord fosse uguale a 0 la  funzione non riuscirebbe ad estendere gli array
-         */
-        int newLenght = id.length * 2;
-
-        id = Arrays.copyOf(id, newLenght);
-        nascita = Arrays.copyOf(nascita, newLenght);
-        registrazioneG = Arrays.copyOf(registrazioneG, newLenght);
-        registrazioneM = Arrays.copyOf(registrazioneM, newLenght);
-        registrazioneA = Arrays.copyOf(registrazioneA, newLenght);
-    }
-
-    public static boolean inserisciCliente(String idCliente, int nascitaCliente, int registrazioneGCliente ,int registrazioneMCliente, int registrazioneACliente){
-
-        boolean RiuscitaInserimento = true;
-
-                        //**condizioni sulla validità dell'input**//
-        /***Marco: aggiungere la condizione sul range 1000 9999*/
-        //sull'id
-        if (id_esistente(idCliente) || idCliente.isEmpty())              RiuscitaInserimento = false;
-
-        //sulla nascita
-        if (nascitaCliente < 1900)                                       RiuscitaInserimento = false;
-
-        //sul giorno della registrazione
-        if (registrazioneGCliente <= 0 || registrazioneGCliente > 31)    RiuscitaInserimento = false;
-
-        //sul mese della registrazione
-        if(registrazioneMCliente <= 0 || registrazioneMCliente > 12)     RiuscitaInserimento = false;
-
-        //sull'anno della registrazione
-        if(registrazioneACliente < 1900)                                 RiuscitaInserimento = false;
-
-        /***Marco: dove ho spostato la parte di gestione dei clienti come da consegna*/
-        if (RiuscitaInserimento){
-            //controllo se il vettore è pieno e nel caso lo si estende
-            if (numRecord >= id.length) estendi();
-
-            id[numRecord] = idCliente;
-            nascita[numRecord] = nascitaCliente;
-            registrazioneG[numRecord] = registrazioneGCliente;
-            registrazioneM[numRecord] = registrazioneMCliente;
-            registrazioneA[numRecord] = registrazioneACliente;
-
-            numRecord++;
-            System.out.println("\n Il cliente è stato registrato\n");
-            return true;
-        }else {
-            System.out.println("\nIl cliente non è stato registrato\n");
-            return false;
         }
     }
 
@@ -119,7 +64,6 @@ public class MioRistorante {
         int registrazioneACliente;
 
         tastiera.skip("\n"); // svuotiamo il buffer di lettura prima di leggere
-
 
         System.out.println("Inserisci l'id: ");
         idCliente = tastiera.nextLine();
@@ -137,20 +81,58 @@ public class MioRistorante {
         System.out.println("Inserisci l'anno della registrazione: ");
         registrazioneACliente = tastiera.nextInt();
 
-        inserisciCliente(idCliente,nascitaCliente,registrazioneGCliente,registrazioneMCliente,registrazioneACliente);
+        if (inserisciCliente(idCliente, nascitaCliente,
+                registrazioneGCliente, registrazioneMCliente,
+                registrazioneACliente)) {
+            System.out.println("Cliente inserito correttamente");
+        } else {
+            System.out.println("Cliente non inserito correttamente");
+        }
     }
 
+    public static boolean inserisciCliente(String idCliente, int nascitaCliente,
+                                           int registrazioneGCliente, int registrazioneMCliente,
+                                           int registrazioneACliente) {
+        if (id_esistente(idCliente) || idCliente.isEmpty() ||
+                nascitaCliente < 1900 ||
+                registrazioneGCliente <= 0 || registrazioneGCliente > 31 ||
+                registrazioneMCliente <= 0 || registrazioneMCliente > 12 ||
+                registrazioneACliente <= 0) {
+            return false;
+        }
+        //controllo se il vettore è pieno e nel caso lo si estende
+        if (numRecord >= id.length)
+            estendi();
+
+        id[numRecord] = idCliente;
+        nascita[numRecord] = nascitaCliente;
+        registrazioneG[numRecord] = registrazioneGCliente;
+        registrazioneM[numRecord] = registrazioneMCliente;
+        registrazioneA[numRecord] = registrazioneACliente;
+
+        numRecord++;
+        return true;
+    }
+
+    //estensione array
+    public static void estendi() {
+
+        int newLenght = id.length * 2;
+
+        id = Arrays.copyOf(id, newLenght);
+        nascita = Arrays.copyOf(nascita, newLenght);
+        registrazioneG = Arrays.copyOf(registrazioneG, newLenght);
+        registrazioneM = Arrays.copyOf(registrazioneM, newLenght);
+        registrazioneA = Arrays.copyOf(registrazioneA, newLenght);
+    }
 
     public static String genera_id() {
         Random rand = new Random();
         int n;
         String random_id;
 
-        /**Marco: se trovate un metodo meno primordiale per generare il valore nel range sarebbe meglio, si dovrebbe cercare
-         * nella documentazione di Random
-         */
         do {
-            n = rand.nextInt() % (9999 - 999) + 1000;
+            n = rand.nextInt(9000) + 1000;
             random_id = "user_" + String.format("%04d", n);
         } while (id_esistente(random_id));
 
@@ -185,16 +167,17 @@ public class MioRistorante {
             System.out.println("Nessun cliente con l'id selezionato");
         } else {
             System.out.println(
-                "Id: " + id[cliente] +
-                ", anno di nascita: " + nascita[cliente] +
-                ", data di registrazione: " + registrazioneG[cliente] + "/" + registrazioneM[cliente] + "/" + registrazioneA[cliente]
+                    "Id: " + id[cliente] +
+                            ", anno di nascita: " + nascita[cliente] +
+                            ", data di registrazione: " + registrazioneG[cliente] + "/" + registrazioneM[cliente] + "/" + registrazioneA[cliente]
             );
         }
     }
 
     public static void stampa_clienti() {
         for (int i = 0; i < numRecord; i++) {
-            System.out.println("Utente " + (i + 1) + ": " + id[i] + " " + nascita[i] + " " + registrazioneG[i] + "/" + registrazioneM[i] + "/" + registrazioneA[i]);
+            System.out.println("Utente " + (i + 1) + ": " + id[i] + " " + nascita[i] + " " +
+                    registrazioneG[i] + "/" + registrazioneM[i] + "/" + registrazioneA[i]);
         }
     }
 }
