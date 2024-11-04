@@ -10,6 +10,7 @@ public class MioRistorante {
     static int[] registrazioneG = new int[3];
     static int[] registrazioneM = new int[3];
     static int[] registrazioneA = new int[3];
+    // static int[][] numPiatti;
     static int numRecord = 0;
 
     static Scanner tastiera = new Scanner(System.in);
@@ -28,7 +29,8 @@ public class MioRistorante {
         System.out.println("Cosa vuoi fare? ");
         System.out.println("Scelta 1: Inserisci un cliente");
         System.out.println("Scelta 2: Cerca un cliente");
-        System.out.println("Scelta 3: Stampa i dati di tutti i clienti");
+        System.out.println("Scelta 3: Cerca clienti per età");
+        System.out.println("Scelta 4: Stampa i dati di tutti i clienti");
         System.out.println("Scelta 100: Esci da un'applicazione");
     }
 
@@ -41,9 +43,13 @@ public class MioRistorante {
                 break;
             case 2:
                 System.out.println("Cerca un cliente");
-                cerca();
+                ricerca();
                 break;
             case 3:
+                System.out.println("Cerca un cliente");
+                ricercaEta();
+                break;
+            case 4:
                 System.out.println("Stampa i dati di tutti i clienti");
                 stampa_clienti();
                 break;
@@ -97,7 +103,7 @@ public class MioRistorante {
                 nascitaCliente < 1900 ||
                 registrazioneGCliente <= 0 || registrazioneGCliente > 31 ||
                 registrazioneMCliente <= 0 || registrazioneMCliente > 12 ||
-                registrazioneACliente <= 0) {
+                registrazioneACliente <= 1900) {
             return false;
         }
         //controllo se il vettore è pieno e nel caso lo si estende
@@ -148,20 +154,13 @@ public class MioRistorante {
         return false;
     }
 
-    public static void cerca() {
-        int cliente = -1;
-
+    public static void ricerca() {
         tastiera.skip("\n"); // svuotiamo il buffer di input
 
         System.out.println("Id cliente da cercare: ");
-        String id_ricerca = tastiera.nextLine();
+        String idRicerca = tastiera.nextLine();
 
-        for (int i = 0; i < numRecord; i++) {
-            if (id[i].equals(id_ricerca)) {
-                cliente = i;
-                break;
-            }
-        }
+        int cliente = ricercaCliente(idRicerca);
 
         if (cliente == -1) {
             System.out.println("Nessun cliente con l'id selezionato");
@@ -172,6 +171,47 @@ public class MioRistorante {
                             ", data di registrazione: " + registrazioneG[cliente] + "/" + registrazioneM[cliente] + "/" + registrazioneA[cliente]
             );
         }
+    }
+
+    public static int ricercaCliente(String idRicerca) {
+        int cliente = -1;
+
+        for (int i = 0; i < numRecord; i++) {
+            if (id[i].equals(idRicerca)) {
+                cliente = i;
+                break;
+            }
+        }
+
+        return cliente;
+    }
+
+    public static void ricercaEta() {
+        String[] idClienti;
+
+        tastiera.skip("\n");
+
+        System.out.println("Cercare clienti con età inferiore a: ");
+        int eta = tastiera.nextInt();
+
+        idClienti = ricercaEtaCliente(eta);
+
+        for (String s : idClienti) {
+            System.out.println("Id: " + s);
+        }
+    }
+
+    public static String[] ricercaEtaCliente(int eta) {
+        String[] idClienti = new String[numRecord];
+
+        for (int i = 0, j = 0; i < nascita.length; i++) {
+            if (eta < (2024 - nascita[i])) {
+                idClienti[j] = id[i];
+                j++;
+            }
+        }
+
+        return idClienti;
     }
 
     public static void stampa_clienti() {
