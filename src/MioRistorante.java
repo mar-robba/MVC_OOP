@@ -202,7 +202,7 @@ public class MioRistorante {
         System.out.print("Inserisci l'ID del cliente: ");
         String idCliente = scanner.nextLine();
 
-        // Trova l'indice del cliente tramite la funzione cerca
+        // Trova l'indice del cliente tramite la funzione Ricercacliente che non vedo
         int indiceCliente = cerca(idCliente);
 
         if (indiceCliente == -1) {
@@ -232,5 +232,5 @@ public class MioRistorante {
         System.out.println("Ordine aggiunto correttamente");
     }
 
-
+//marco succhia le ciole
 }
