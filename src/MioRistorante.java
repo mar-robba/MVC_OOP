@@ -206,7 +206,7 @@ public class MioRistorante {
         int indiceCliente = cerca(idCliente);
 
         if (indiceCliente == -1) {
-            System.out.println("Cliente non trovato.");
+            System.out.println("Cliente non trovato");
             return;
         }
 
