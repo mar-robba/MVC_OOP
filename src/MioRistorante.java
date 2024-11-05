@@ -14,6 +14,16 @@ public class MioRistorante {
 
     static Scanner tastiera = new Scanner(System.in);
 
+    /*matrice, prima dimensione num clienti, seconda dimensione
+
+
+    static int[] numOrdini = new int[3]; // 3 perché ogni cliente può avere un numero di ordine diverso
+    static int numClienti= 0;*/
+
+    //Matrice richiesta per l'inserimento di ordini
+    static double[][] numeroPiatti = new double[3][4];
+    static String[][] tipoMenu = new String[3][4];
+
     public static void main(String[] args) {
         System.out.println("Benvenuto nel software Ristorazione dell’UPO!");
         int scelta = -1;
@@ -29,6 +39,7 @@ public class MioRistorante {
         System.out.println("Scelta 1: Inserisci un cliente");
         System.out.println("Scelta 2: Cerca un cliente");
         System.out.println("Scelta 3: Stampa i dati di tutti i clienti");
+        System.out.println("Scelta 4: Aggiungi un ordine");
         System.out.println("Scelta 100: Esci da un'applicazione");
     }
 
@@ -47,6 +58,9 @@ public class MioRistorante {
                 System.out.println("Stampa i dati di tutti i clienti");
                 stampa_clienti();
                 break;
+            case 4:
+                System.out.println("Aggiungi un ordine");
+                aggiungiOrdine();
             case 100:
                 System.out.println("Esci dall'applicazione");
                 break;
@@ -180,4 +194,43 @@ public class MioRistorante {
                     registrazioneG[i] + "/" + registrazioneM[i] + "/" + registrazioneA[i]);
         }
     }
+
+
+    public static void aggiungiOrdine() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Inserisci l'ID del cliente: ");
+        String idCliente = scanner.nextLine();
+
+        // Trova l'indice del cliente tramite la funzione cerca
+        int indiceCliente = cerca(idCliente);
+
+        if (indiceCliente == -1) {
+            System.out.println("Cliente non trovato.");
+            return;
+        }
+
+        // Trova la prima posizione libera per l'ordine
+        int indiceOrdine = -1;
+        for (int i = 0; i < 4; i++) {
+            if (numeroPiatti[indiceCliente][i] == 0) {
+                indiceOrdine = i;
+                break;
+            }
+        }
+
+        if (indiceOrdine == -1) {
+            System.out.println("Il cliente ha già raggiunto il massimo numero di ordini");
+            return;
+        }
+
+        System.out.print("Inserisci il numero di piatti: ");
+        numeroPiatti[indiceCliente][indiceOrdine] = scanner.nextDouble();
+        System.out.print("Inserisci il tipo di menù: ");
+        tipoMenu[indiceCliente][indiceOrdine] = scanner.next();
+
+        System.out.println("Ordine aggiunto correttamente");
+    }
+
+
 }
