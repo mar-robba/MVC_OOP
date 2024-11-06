@@ -188,13 +188,14 @@ public class MioRistorante {
         }
     }
 
+    // cerca un cliente tramite l'id
     public static int ricercaCliente(String idRicerca) {
         int cliente = -1;
 
         for (int i = 0; i < numRecord; i++) {
             if (id[i].equals(idRicerca)) {
                 cliente = i;
-                break;
+                break; // possiamo uscire perché gli id sono unici
             }
         }
 
@@ -206,21 +207,35 @@ public class MioRistorante {
 
         tastiera.skip("\n");
 
-        System.out.println("Cercare clienti con età inferiore a: ");
-        int eta = tastiera.nextInt();
+        int etaMin;
+        System.out.println("Cercare clienti con età superiore a: ");
+        // Se l'utente non inserisce un numero usiamo come età minima 0 (quindi
+        // selezioniamo tutti i clienti con età inferiore a etaMax)
+        if (tastiera.hasNextInt()) {
+            etaMin = tastiera.nextInt();
+        } else {
+            etaMin = 0;
+        }
 
-        idClienti = ricercaEtaCliente(eta);
+        System.out.println("Cercare clienti con età inferiore a: ");
+        int etaMax = tastiera.nextInt();
+
+        idClienti = ricercaEtaCliente(etaMin, etaMax);
 
         for (String s : idClienti) {
             System.out.println("Id: " + s);
         }
     }
 
-    public static String[] ricercaEtaCliente(int eta) {
+    // La funzione ritorna un'array con gli id di tutti i clienti con età
+    // compresa tra minimo e massimo
+    public static String[] ricercaEtaCliente(int etaMin, int etaMax) {
         String[] idClienti = new String[numRecord];
+        int eta;
 
         for (int i = 0, j = 0; i < nascita.length; i++) {
-            if (eta < (2024 - nascita[i])) {
+            eta = 2024 - nascita[i];
+            if (etaMin <= eta && etaMax > eta) {
                 idClienti[j] = id[i];
                 j++;
             }
