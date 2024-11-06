@@ -36,7 +36,9 @@ public class MioRistorante {
         System.out.println("Scelta 2: Cerca un cliente");
         System.out.println("Scelta 3: Cerca clienti per età");
         System.out.println("Scelta 4: Aggiungi un ordine");
-        System.out.println("Scelta 5: Stampa i dati di tutti i clienti");
+        System.out.println("Scelta 5: Stampa statistiche numero piatti");
+        System.out.println("Scelta 6: Stampa statistiche tipo menu");
+        System.out.println("Scelta 7: Stampa i dati di tutti i clienti");
         System.out.println("Scelta 100: Esci da un'applicazione");
     }
 
@@ -60,6 +62,14 @@ public class MioRistorante {
                 aggiungiOrdine();
                 break;
             case 5:
+                System.out.println("Statistiche numero piatti");
+                statisticheNumeroPiatti();
+                break;
+            case 6:
+                System.out.println("Statistiche tipo menu");
+                statisticheMenu();
+                break;
+            case 7:
                 System.out.println("Stampa i dati di tutti i clienti");
                 stampa_clienti();
                 break;
@@ -309,5 +319,40 @@ public class MioRistorante {
         numOrdini[indiceCliente]++;
 
         return 0;
+    }
+
+    // Stampiamo numero minimo, massimo e medio di piatti in ogni ordine
+    public static void statisticheNumeroPiatti() {
+        // NOTE: Ci assicuriamo che i valori di partenza minimo e massimo siano
+        // estremi così che il primo valore trovato aggiorni quello di
+        // partenza. Notare che non basta fare min = numeroPiatti[0][0] perché
+        // non è sicuro ci sia un valore in posizione [0][0]
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        int tot = 0;
+        int count = 0;
+
+        for (int[] piattiCliente : numeroPiatti) {
+            for (int piatti : piattiCliente) {
+                if (piatti < min) {
+                    min = piatti;
+                }
+                if (piatti > max) {
+                    max = piatti;
+                }
+                tot += piatti;
+                count++;
+            }
+        }
+
+        double media = (double)tot / count;
+
+        System.out.println("Il numero minimi di piatti in un ordine è: " + min);
+        System.out.println("Il numero massimo di piatti in un ordine è: " + max);
+        System.out.println("Il numero medio di piatti in un ordine è: " + media);
+    }
+
+    public static void statisticheMenu() {
+
     }
 }
