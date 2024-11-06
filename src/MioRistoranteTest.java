@@ -79,21 +79,53 @@ public class MioRistoranteTest {
         return !MioRistorante.inserisciCliente(Id, nascita, RegistrazioneG, RegistrazioneM, RegistrazioneA);
     }
 
+    public static boolean testRicercaId() {
+        String Id = "test-ricerca";
+        int nascita = 1998;
+        int RegistrazioneG = 4;
+        int RegistrazioneM = 4;
+        int RegistrazioneA = 2004;
+
+        MioRistorante.inserisciCliente(Id, nascita, RegistrazioneG, RegistrazioneM, RegistrazioneA);
+
+        return (0 <= MioRistorante.ricercaCliente("test-ricerca"));
+    }
+
+    public static boolean testFallimentoRicercaId() {
+        String Id = "test-ricerca-successo";
+        int nascita = 1998;
+        int RegistrazioneG = 4;
+        int RegistrazioneM = 4;
+        int RegistrazioneA = 2004;
+
+        MioRistorante.inserisciCliente(Id, nascita, RegistrazioneG, RegistrazioneM, RegistrazioneA);
+
+        return !(0 <= MioRistorante.ricercaCliente("test-ricerca-fallimento"));
+    }
+
     //volendo racchiudere il corpo delle funzioni di test in un costrutto try catch per le eccezioni
     public static void main(String[] args) {
 
         boolean test1 = testInserisciSingolo();
         boolean test2 = testEstendi();
         boolean test3 = testInserisciErrore();
+        boolean test4 = testRicercaId();
+        boolean test5 = testFallimentoRicercaId();
 
-        if (test1) System.out.println("testInserisciSingolo: ---> OK ");
-        else System.out.println("testInserisciSingolo: ---> X ");
+        if (test1) System.out.println("testInserisciSingolo: ----> OK ");
+        else System.out.println("testInserisciSingolo: ----> X ");
 
-        if (test2) System.out.println("testEstendi: ------------> OK");
-        else System.out.println("testEstendi: -----------> X");
+        if (test2) System.out.println("testEstendi: -------------> OK");
+        else System.out.println("testEstendi: ------------> X");
 
-        if (test3) System.out.println("testInserisciErrore: ----> OK");
+        if (test3) System.out.println("testInserisciErrore: -----> OK");
         else
-            System.out.println("testInserisciErrore: ----> X");//per passarlo implementare le condizioni di compatibilità
+            System.out.println("testInserisciErrore: -----> X");//per passarlo implementare le condizioni di compatibilità
+
+        if (test4) System.out.println("testRicercaId: -----------> OK");
+        else System.out.println("testRicercaId: ----------> X");
+
+        if (test5) System.out.println("testFallimentoRicercaId: -> OK");
+        else System.out.println("testFallimentoRicercaId -> X");
     }
 }
