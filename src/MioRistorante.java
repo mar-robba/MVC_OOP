@@ -10,20 +10,15 @@ public class MioRistorante {
     static int[] registrazioneG = new int[3];
     static int[] registrazioneM = new int[3];
     static int[] registrazioneA = new int[3];
-    // static int[][] numPiatti;
-    static int numRecord = 0;
-
-    static Scanner tastiera = new Scanner(System.in);
-
-    /*matrice, prima dimensione num clienti, seconda dimensione
-
-
-    static int[] numOrdini = new int[3]; // 3 perché ogni cliente può avere un numero di ordine diverso
-    static int numClienti= 0;*/
 
     //Matrice richiesta per l'inserimento di ordini
-    static double[][] numeroPiatti = new double[3][4];
+    static int[][] numeroPiatti = new int[3][4];
     static String[][] tipoMenu = new String[3][4];
+
+    static int numRecord = 0;
+    static int[] numOrdini = new int[3];
+
+    static Scanner tastiera = new Scanner(System.in);
 
     public static void main(String[] args) {
         System.out.println("Benvenuto nel software Ristorazione dell’UPO!");
@@ -145,6 +140,11 @@ public class MioRistorante {
         registrazioneG = Arrays.copyOf(registrazioneG, newLenght);
         registrazioneM = Arrays.copyOf(registrazioneM, newLenght);
         registrazioneA = Arrays.copyOf(registrazioneA, newLenght);
+
+        // Dobbiamo estendere anche le matrici degli ordini
+        numOrdini = Arrays.copyOf(numOrdini, newLenght);
+        numeroPiatti = Arrays.copyOf(numeroPiatti, newLenght);
+        tipoMenu = Arrays.copyOf(tipoMenu, newLenght);
     }
 
     public static String genera_id() {
@@ -251,42 +251,63 @@ public class MioRistorante {
         }
     }
 
-
     public static void aggiungiOrdine() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Inserisci l'ID del cliente: ");
         String idCliente = scanner.nextLine();
 
-        // Trova l'indice del cliente tramite la funzione ricercaCliente
-        int indiceCliente = ricercaCliente(idCliente);
-
-        if (indiceCliente == -1) {
-            System.out.println("Cliente non trovato");
-            return;
-        }
-
-        // Trova la prima posizione libera per l'ordine
-        int indiceOrdine = -1;
-        for (int i = 0; i < 4; i++) {
-            if (numeroPiatti[indiceCliente][i] == 0) {
-                indiceOrdine = i;
-                break;
-            }
-        }
-
-        if (indiceOrdine == -1) {
-            System.out.println("Il cliente ha già raggiunto il massimo numero di ordini");
-            return;
-        }
-
         System.out.print("Inserisci il numero di piatti: ");
-        numeroPiatti[indiceCliente][indiceOrdine] = scanner.nextDouble();
+        int numPiattiCliente = scanner.nextInt();
         System.out.print("Inserisci il tipo di menù: ");
-        tipoMenu[indiceCliente][indiceOrdine] = scanner.next();
+        String tipoMenuCliente = scanner.next();
 
-        System.out.println("Ordine aggiunto correttamente");
+        // Qui salviamo il codice di ritorno della funzione per controllare eventuali errori
+        int res = aggiungiOrdineCliente(idCliente, numPiattiCliente, tipoMenuCliente);
+
+        switch (res) {
+            case 0:
+                System.out.println("Ordine aggiunto correttamente");
+                break;
+            case -1:
+                System.out.println("Il cliente ha già il numero massimo di ordini");
+                break;
+            case -2:
+                System.out.println("Il cliente ha ordinato un numero di piatti non valido");
+                break;
+            case -3:
+                System.out.println("Il cliente ha selezionato un menu non valido");
+                break;
+            default:
+                System.out.println("Qualcosa non va");
+                break;
+        }
     }
 
-//marco succhia le ciole
+    // La funzione ritorna un codice di errore o 0 se tutto era corretto
+    public static int aggiungiOrdineCliente(String idCliente, int numPiattiCliente, String tipoMenuCliente) {
+        int indiceCliente = ricercaCliente(idCliente);
+
+        // Controlla se c'è spazio per ordini
+        int indiceOrdine = numOrdini[indiceCliente];
+
+        // Per ogni tipo di problema usiamo un return diverso, e useremo 0 come 'tutto ok'
+        if (indiceOrdine >= numeroPiatti[indiceCliente].length) {
+            return -1; // Il cliente ha già il numero massimo di ordini
+        }
+
+        if (numPiattiCliente < 0) {
+            return -2; // Il cliente ha ordinato un numero di piatti non valido
+        }
+
+        if (tipoMenuCliente == null || tipoMenuCliente.isEmpty()) {
+            return -3; // Il cliente ha selezionato un menu non valido
+        }
+
+        numeroPiatti[indiceCliente][indiceOrdine] = numPiattiCliente;
+        tipoMenu[indiceCliente][indiceOrdine] = tipoMenuCliente;
+        numOrdini[indiceCliente]++;
+
+        return 0;
+    }
 }
