@@ -280,12 +280,15 @@ public class MioRistorante {
                 System.out.println("Ordine aggiunto correttamente");
                 break;
             case -1:
-                System.out.println("Il cliente ha già il numero massimo di ordini");
+                System.out.println("Cliente non trovato");
                 break;
             case -2:
-                System.out.println("Il cliente ha ordinato un numero di piatti non valido");
+                System.out.println("Il cliente ha già il numero massimo di ordini");
                 break;
             case -3:
+                System.out.println("Il cliente ha ordinato un numero di piatti non valido");
+                break;
+            case -4:
                 System.out.println("Il cliente ha selezionato un menu non valido");
                 break;
             default:
@@ -298,24 +301,28 @@ public class MioRistorante {
     public static int aggiungiOrdineCliente(String idCliente, int numPiattiCliente, String tipoMenuCliente) {
         int indiceCliente = ricercaCliente(idCliente);
 
+        if (indiceCliente < 0) {
+            return -1;
+        }
+
         // Controlla se c'è spazio per ordini
         int indiceOrdine = numOrdini[indiceCliente];
 
         // Per ogni tipo di problema usiamo un return diverso, e useremo 0 come 'tutto ok'
         if (indiceOrdine >= numeroPiatti[indiceCliente].length) {
-            return -1; // Il cliente ha già il numero massimo di ordini
+            return -2; // Il cliente ha già il numero massimo di ordini
         }
 
-        if (numPiattiCliente < 0) {
-            return -2; // Il cliente ha ordinato un numero di piatti non valido
+        if (numPiattiCliente <= 0) {
+            return -3; // Il cliente ha ordinato un numero di piatti non valido
         }
 
         if (tipoMenuCliente == null || tipoMenuCliente.isEmpty()) {
-            return -3; // Il cliente ha selezionato un menu non valido
+            return -4; // Il cliente ha selezionato un menu non valido
         }
 
         numeroPiatti[indiceCliente][indiceOrdine] = numPiattiCliente;
-        tipoMenu[indiceCliente][indiceOrdine] = tipoMenuCliente;
+        tipoMenu[indiceCliente][indiceOrdine] = tipoMenuCliente.toLowerCase(); // rendiamo sempre tutto in lower case per avere dati omogenei
         numOrdini[indiceCliente]++;
 
         return 0;
@@ -334,6 +341,11 @@ public class MioRistorante {
 
         for (int[] piattiCliente : numeroPiatti) {
             for (int piatti : piattiCliente) {
+                // alcuni valori non sono ancora stati inseriti e compare 0
+                if (piatti <= 0) {
+                    break;
+                }
+
                 if (piatti < min) {
                     min = piatti;
                 }
@@ -345,7 +357,7 @@ public class MioRistorante {
             }
         }
 
-        double media = (double)tot / count;
+        double media = (double) tot / count;
 
         System.out.println("Il numero minimi di piatti in un ordine è: " + min);
         System.out.println("Il numero massimo di piatti in un ordine è: " + max);
