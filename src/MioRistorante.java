@@ -365,6 +365,46 @@ public class MioRistorante {
     }
 
     public static void statisticheMenu() {
+        int maxNumMenu = 3;
+        int numTipiMenu = 0;
+        String[] tipiMenu = new String[maxNumMenu];
+        int[] countMenu = new int[maxNumMenu];
 
+        // inseriamo i dati nei nostri array
+        for (String[] ordini : tipoMenu) {
+            for (String ordine : ordini) {
+                // alcuni valori non sono ancora stati inseriti e il tipo è null
+                if (ordine == null)
+                    break;
+                // cerchiamo il menu
+                int indiceOrdine = -1;
+                for (int i = 0; i < maxNumMenu; i++) {
+                    if (ordine.equals(tipiMenu[i])) {
+                        indiceOrdine = i;
+                        break;
+                    }
+                }
+                // se il menu non viene trovato lo aggiungiamo
+                if (indiceOrdine < 0) {
+                    indiceOrdine = numTipiMenu;
+                    numTipiMenu++;
+                    // se non basta lo spazio estendiamo gli array
+                    if (numTipiMenu >= maxNumMenu) {
+                        maxNumMenu *= 2;
+                        tipiMenu = Arrays.copyOf(tipiMenu, maxNumMenu);
+                        countMenu = Arrays.copyOf(countMenu, maxNumMenu);
+                    }
+                    tipiMenu[indiceOrdine] = ordine;
+                    countMenu[indiceOrdine] = 0;
+                }
+                // aumentiamo il conteggio per il menu
+                countMenu[indiceOrdine]++;
+            }
+        }
+
+        // stampiamo il numero di ordini per ogni menu
+        for (int i = 0; i < numTipiMenu; i++) {
+            System.out.println(tipiMenu[i] + ": " + countMenu[i]);
+        }
     }
 }
