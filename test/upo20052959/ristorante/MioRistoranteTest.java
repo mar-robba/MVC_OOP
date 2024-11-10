@@ -1,3 +1,5 @@
+package upo20052959.ristorante;
+
 public class MioRistoranteTest {
     //testa l’inserimento di un cliente tramite il metodo inserisciCliente
     public static boolean testInserisciSingolo() {

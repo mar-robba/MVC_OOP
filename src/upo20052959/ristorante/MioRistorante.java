@@ -1,6 +1,8 @@
+package upo20052959.ristorante;
+
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.Random;
+import java.security.SecureRandom;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -158,7 +160,7 @@ public class MioRistorante {
     }
 
     public static String genera_id() {
-        Random rand = new Random();
+        SecureRandom rand = new SecureRandom();
         int n;
         String random_id;
 
