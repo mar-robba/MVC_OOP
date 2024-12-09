@@ -1,4 +1,2 @@
-package upo20052959.ristorante;
-
-public class Ordine {
+package
 }
